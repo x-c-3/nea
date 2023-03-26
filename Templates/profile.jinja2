@@ -1,0 +1,142 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}<span style="color: dodgerblue;">Rank #$$userRank$$</span> <span class="separator">-</span> $$username$$'s Profile{% endblock %}
+{% block content %}
+
+<script src="/static/js/user.js"></script>
+<script src="/static/js/courses.js"></script>
+<script src="/static/js/challenges.js"></script>
+<script src="/static/js/scoreboard.js"></script>
+
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h2>🔥 Streak</h2>
+			<p id="streakText" class="mb-1">$$username$$ is on a <b>$$streak$$ day</b> login streak!<br>
+			Their last login was on $$lastStreakLogin$$.</p>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body">
+			<h2>🧑‍🎓 Courses</h2>
+			<ul id="coursesContainer" class="mb-1"></ul>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body">
+			<h2>🔢 Points</h2>
+			<p id="pointsText">$$username$$ has attained $$points$$ points compared to the top player's $$maxPts$$ total points.</p>
+			<div class="progress">
+				<div id="pointsProgressBar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body">
+			<h2>🏆 Challenges</h2>
+			<p id="challsText">$$username$$ has completed $$numChalls$$ out of all $$maxNumChalls$$ challenges.</p>
+			<div class="progress">
+				<div id="challengesProgressBar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body">
+			<h2>🩸 First Bloods</h2>
+			<p id="fbText"></p>
+			<ul id="fb"></ul>
+		</div>
+	</div>
+</div>
+
+<script>
+// define elements from the DOM
+let profileHeader = document.getElementById("profileHeader");
+
+// whose profile is this?
+// the username will be the 3rd item when split by slashes:
+// for example, /user/abc will become ["", "user", "abc"] when split, and the username abc is third
+const username = decodeURIComponent(location.pathname.split("/")[2]);
+
+
+async function displayProfile() {
+	// get all data from the API
+	let userRank = await fetchUserRank(username);
+	let allCourses = await fetchCourseNames();
+	let solvedCourses = await fetchSolvedCourseNames(username);
+	let { firstBloods, points, streak, lastStreakLogin } = await fetchUserInfo(username);
+
+	// to get the highest number of points, get the scoreboard #1's number of points
+	let maxPts = (await fetchScoreboard())[0].totalPoints;
+
+	// to get the maximum number of challenges, get the number of challenges from the api
+	let maxNumChalls = (await fetchChallengeNames()).length;
+	let numChalls = (await fetchSolvedChallengeNames(username)).length;
+
+
+	// // DEBUG
+	// points = 5;
+	// maxPts = 13;
+	// maxNumChalls = 100;
+	// numChalls = 78;
+	// firstBloods = ["challenge-1", "challenge-2"]
+	// solvedCourses.push("course-2")
+	// allCourses.push("course-1")
+	// allCourses.push("course-2")
+
+	// replace template strings
+	template(header, { username, userRank })
+	template(pointsText, { username, points, maxPts })
+	template(challsText, { username, numChalls, maxNumChalls })
+	template(streakText, { username, streak, lastStreakLogin })
+
+	// display courses
+	allCourses.forEach(courseName => {
+		let courseHTML;
+
+		// if the course is fully completed, it will show up in the solved courses
+		if (solvedCourses.includes(courseName)) {
+			courseHTML = `<li>${courseName} - <span style="color: green;">Complete!</span></li>`
+		}
+
+		// otherwise, it's not complete
+		else {
+			courseHTML = `<li>${courseName} - <span style="color: red;">Incomplete</span></li>`
+		}
+
+		// add to the courses container
+		coursesContainer.innerHTML += courseHTML;
+	})
+
+	// set points progress bar
+	let percentagePoints = Math.round(100 * (points / maxPts));
+	pointsProgressBar.style.width = `${percentagePoints}%`;
+	pointsProgressBar.innerText = `${percentagePoints}%`;
+
+	// set challenges progress bar
+	let percentageChalls = Math.round(100 * (numChalls / maxNumChalls));
+	challengesProgressBar.style.width = `${percentageChalls}%`;
+	challengesProgressBar.innerText = `${percentageChalls}%`;
+
+	// set first bloods
+	if (!firstBloods.length) {
+		fbText.innerText = `${username} has not first blooded any challenges.`
+		fb.remove()
+	}
+	else {
+		fbText.innerText = `${username} has first blooded ${firstBloods.length} challenges!`
+		firstBloods.forEach(challengeName => {
+			fb.innerHTML += `<li><span style="color: red;">${challengeName}</span></li>`
+		})
+	}
+
+	showContent();
+}
+
+displayProfile();
+
+</script>
+{% endblock %}

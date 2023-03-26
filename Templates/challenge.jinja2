@@ -1,0 +1,118 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}<span style="color: dodgerblue;">Challenge</span> <span class="separator">-</span> $$challengeName$${% endblock %}
+{% block content %}
+
+<script src="/static/js/challenges.js"></script>
+	
+<div id="challengeContainer">
+
+	<div class="card mb-4" id="fb">
+		<div class="card-body">
+			<p class="mb-0"><b>🩸 First Blood</b> was taken by <b>$$firstBlood$$</b>.</p>
+		</div>
+	</div>
+
+	<div class="card mb-3">
+		<div class="card-body pb-1">
+			<h3 class="mb-3">📝 Description</h3>
+			$$description$$
+		</div>
+	</div>
+
+	<div>
+		<a role="button" id="sourceLink" class="btn btn-secondary my-1" href="/static/challenges/$$challengeName$$.zip">Download source code</a>
+		<a role="button" class="btn btn-primary my-1" target="_blank" href="$$challengeURL$$">Link to challenge</a>
+		<a role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="informationCard" class="btn btn-primary my-1" href="#informationCard">▽ Information</a>
+	</div>
+
+	<div class="collapse" id="informationCard">
+		<div class="card bg-primary text-white">
+			<div class="card-body">
+				<h3>🛈 Information</h3>
+				<p id="infoText" class="mb-1">
+					Difficulty: <span class="badge difficulty-$$difficulty$$">$$difficulty$$</span><br>
+					Points: $$points$$<br>
+					Number of solves: $$numSolves$$<br>
+					Category: $$category$$
+				</p>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="card">
+	<div class="card-body">
+		<form id="submitForm">
+			<div class="mb-3">
+				<input type="text" class="form-control" name="flag" placeholder="Flag here...">
+			</div>
+			<input type="submit" class="btn btn-primary" value="Submit Flag">
+		</form>
+	</div>
+</div>
+
+<script>
+// define elements from the DOM
+let challengeContainer = document.getElementById("challengeContainer");
+let submitForm = document.getElementById("submitForm");
+
+// what challenge is this?
+// the challenge will be the 3rd item when split by slashes:
+// for example, /challenge/def will become ["", "challenge", "def"] when split, and the challenge name def is third
+const challengeName = decodeURIComponent(location.pathname.split("/")[2]);
+
+// if this page is embedded, (i.e in a course) remove the sidebar and size down the header
+if (window.isEmbedded()) {
+	sidebar.remove();
+	header.outerHTML = "<h3 id='header'>$$challengeName$$</h3>";
+}
+
+// Listen for when the form is submitted
+submitForm.addEventListener("submit", async e => {
+	e.preventDefault(); // stop the form from normally submitting so the page doesn't refresh
+
+	// extract flag
+	let formData = new FormData(submitForm);
+	let flag = formData.get("flag");
+
+	// try submitting the flag
+	let resp = await tryFlag(challengeName, flag);
+
+	if (resp.error) alert(resp.error);
+	if (resp.success) {
+		alert(resp.success);
+		location.reload();
+	}
+
+})
+
+// function to add the challenge info
+async function addChallengeInfo() {
+
+	// get the information about the challenge
+	let challengeInfo = await fetchChallengeInfo(challengeName);
+	challengeInfo.numSolves = challengeInfo.solves.length;
+
+	// if the challenge is sourceless, disable the source button
+	if (!challengeInfo.source) {
+		sourceLink.classList.add("disabled");
+		sourceLink.innerText = "No source"
+	}
+
+	// if somebody hasn't first blooded the challenge, remove the first blood message
+	if (!challengeInfo.firstBlood) fb.remove();
+
+	// parse the challenge description using Markdown
+	challengeInfo.description = marked.parse(challengeInfo.description)
+
+	template(header, { challengeName });
+	template(challengeContainer, challengeInfo);
+
+	showContent();
+}
+
+// add the challenge info
+addChallengeInfo();
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}Scoreboard{% endblock %}
+{% block content %}
+
+<script src="/static/js/scoreboard.js"></script>
+
+<div class="card">
+	<div class="card-body" id="scoreboardContainer">
+		<!-- <p class="mb-2">
+			<b>#$$rank$$</b> - $$username$$
+		</p>
+		<div class="progress mb-4">
+			<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 50%">$$points$$ points</div>
+		</div> -->
+	</div>
+</div>
+
+<script>
+// define elements from the DOM
+let scoreboardContainer = document.getElementById("scoreboardContainer");
+
+// function to update the scoreboard
+async function updateScoreboard() {
+
+	// initialise the HTML
+	let scoreboardHTML = "";
+
+	// the rank counter, starts at 1
+	let i = 1;
+
+	await fetchScoreboard().then(users => { // convert the scoreboard to json
+
+		// get the person with the highest number of points for the percentages
+		let maxPts = users[0].totalPoints;
+
+		users.forEach(user => { // iterate through the array of users
+
+			let { totalPoints, username } = user; // unpack the object into points and username
+
+			// increment counter and set rank
+			let rank = i;
+			i++;
+
+			// calculate percentage for the progress bar
+			// || 0 required since NaN will break the progress bar (division by 0)
+			let percentagePoints = Math.round(100 * totalPoints / maxPts) || 0;
+
+			// add HTML
+			scoreboardHTML += `
+			<p class="mb-2">
+				<b>#${rank}</b> - <a href="/user/${username}">${username}</a>
+			</p>
+			<div class="progress mb-4">
+				<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: ${percentagePoints}%">${totalPoints} points</div>
+			</div>
+			`;
+		});
+	});
+
+	scoreboardContainer.innerHTML = scoreboardHTML;
+}
+
+// update the scoreboard every 5 seconds, and immediately
+async function main() {
+	await updateScoreboard();
+
+	// show the scoreboard once it's loaded
+	showContent();
+
+	// then, start reloading every 5 seconds
+	setInterval(updateScoreboard, 5000);
+}
+
+main();
+</script>
+{% endblock %}

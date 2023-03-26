@@ -1,0 +1,77 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+
+<script src="/static/js/user.js"></script>
+<script src="/static/js/courses.js"></script>
+<script src="/static/js/challenges.js"></script>
+
+<div class="container">
+	<div class="row" id="coursesRow">
+<!-- 		<div class="card col mx-1">
+
+			<div class="card-body">
+				<h3>SQL Injection</h3>
+				<hr>
+				<p>
+					Learn about what SQL is and its common applications, vulnerabilities and pitfalls.
+				</p>
+			</div>
+
+			<div class="card-footer">
+				<a href="#" role="button" class="btn btn-primary my-1">Start course</a>
+			</div>
+
+		</div> -->
+	</div>
+</div>
+
+<script>
+async function displayCourseInfo() {
+	let username = await fetchUsername();
+	let courses = await fetchCourseInfos();
+	let solvedCourses = await fetchSolvedCourseNames(username);
+	let solvedChallenges = await fetchSolvedChallengeNames(username);
+
+	courses.forEach(courseData => {
+		let { courseName, levels, challenges, shortDesc } = courseData;
+
+		let solvedCount = 0;
+		for (challenge of challenges) {
+			if (solvedChallenges.includes(challenge)) solvedCount += 1;
+		}
+
+		coursesRow.innerHTML += `
+			<div class="card col mx-1">
+
+				<div class="card-body">
+					<h3>${courseName}</h3>
+					<hr>
+					<p>
+						${shortDesc}
+					</p>
+					<p>
+						Progress: <b>${solvedCount} / ${challenges.length}</b> challenges solved
+					</p>
+				</div>
+
+				<div class="card-footer">
+					<a href="/course/${courseName}" role="button" class="btn btn-primary my-1">Start course</a>
+				</div>
+
+			</div>
+		`
+
+		// if solved, add this to the innerHTML
+		if (solvedCourses.includes(courseName)) {
+			`<p>Solved!</p>`;
+		}
+	})
+
+	showContent();
+}
+
+// display the course info
+displayCourseInfo();
+</script>
+{% endblock %}

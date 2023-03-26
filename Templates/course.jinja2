@@ -1,0 +1,123 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<script src="/static/js/courses.js"></script>
+<script src="/static/js/challenges.js"></script>
+
+<div id="courseContainer">
+
+	<div class="card mb-3">
+		<div class="card-body">
+			<p id="page" class="mb-1"></p>
+		</div>
+	</div>
+
+	<div>
+		<a role="button" class="btn btn-primary my-1" id="prevPageBtn" href="#">Previous page</a>
+		<a role="button" class="btn btn-primary my-1" id="nextPageBtn" href="#">Next page</a>
+		<a role="button" class="btn btn-primary my-1 d-none" id="solveCourseBtn" href="#">Solve course</a>
+	</div>
+
+</div>
+
+
+<script type="module">
+/*
+Courses consist of a series of pages
+Pages can be information (infos) or challenge pages
+
+Keep track of the page number using localStorage.
+localStorage.courseBookmarks will be a mapping of courseName to pageNo.
+When the user accesses the same course again, load to that specific page.
+*/
+
+// what course is this?
+// the course will be the 3rd item when split by slashes:
+// for example, /course/def will become ["", "course", "def"] when split, and the course name def is third
+const courseName = decodeURIComponent(location.pathname.split("/")[2]);
+
+let courseInfo = await fetchCourseInfo(courseName);
+let { levelNo, pageNo } = getPage(courseName);
+let { maxLevelNo, maxPageNo } = getMaxPageInfo(courseInfo);
+
+// replace the current page info to the one associated with levelNo, pageNo
+async function addCoursePageInfo() {
+
+	let allPages = courseInfoToPages(courseInfo);
+
+	// set the current page from localStorage
+	page.innerHTML = allPages[levelNo][pageNo - 1];
+
+	// set the header
+	header.innerHTML = `<span style="color: dodgerblue;">${courseName}</span> <span class="separator">-</span> Level ${levelNo}`;
+}
+
+// update the buttons to stop on the first and last page
+function updateButtons() {
+	// first page
+	if (levelNo === 1 && pageNo === 1) prevPageBtn.classList.add("disabled");
+	else prevPageBtn.classList.remove("disabled");
+
+	// last page
+	if (levelNo === maxLevelNo && pageNo === maxPageNo) {
+		// hide the "Next page" button and show the "Solve course" button
+		nextPageBtn.classList.add("d-none");
+		solveCourseBtn.classList.remove("d-none");
+	}
+	else {
+		nextPageBtn.classList.remove("d-none");
+		solveCourseBtn.classList.add("d-none");
+	}
+}
+
+// handle going to the next page/going back a page
+prevPageBtn.addEventListener("click", e => {
+	pageNo -= 1;
+	if (pageNo < 1) {
+		levelNo -= 1;
+		pageNo = getMaxPageNoInLevelFromLevels(courseInfo.levels, levelNo)	;
+	}
+
+	updatePage();
+})
+
+nextPageBtn.addEventListener("click", e => {
+	pageNo += 1;
+	if (pageNo > getMaxPageNoInLevelFromLevels(courseInfo.levels, levelNo)) {
+		levelNo += 1;
+		pageNo = 1;
+	}
+
+	updatePage();
+})
+
+// handle solving the course
+solveCourseBtn.addEventListener("click", async e => {
+	let res = await trySolve(courseName);
+
+	if (res.error) alert(res.error);
+
+	if (res.success) {
+		// take them out of the course if they're done
+		alert(res.success);
+		location.href = "/courses";
+	}
+})
+
+// update the page to the one given by the current page number
+async function updatePage() {
+	setPage(courseName, { levelNo, pageNo });
+	updateButtons();
+	await addCoursePageInfo();
+}
+
+// update page on load
+async function main() {
+	await updatePage();
+	showContent();
+}
+
+main();
+</script>
+{% endblock %}

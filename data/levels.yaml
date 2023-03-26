@@ -1,0 +1,211 @@
+---
+levels:
+  
+  - courseName: "JavaScript"
+    levels:
+      - levelNo: 1
+        infos: 
+          - |
+            ### Introduction
+
+            Whenever you visit a URL in your browser and you see a webpage, that webpage is the result of data being sent back from the server to you in order to be rendered there on your screen. However, what data is being sent back to you?
+
+            As a simplification, web apps can be divided into two parts: the **frontend**, which you can see, and the **backend**, which you can't see. When you send requests, you're sending them to the backend, and the backend is processing your request and responding with data.
+
+            > Frontend denotes the graphical user interface (GUI) of a website. Some of the data the backend responds with might be interactable frontend, and other bits may be things that need to be processed further before displaying, such as data stored in the JSON format (more on that later)!
+
+            Using the developer tools in your browser lets you see all the data that's sent back to you. Use <kbd>Ctrl+Shift+I</kbd> or <kbd>F12</kbd> to open them in Chrome and Firefox, and go to the Network tab. Keep it open when navigating to the next page and watch the flow of data!
+
+            > The Network tab shows all the HTTP requests that you send to the server. Clicking on a specific request will show you information relating to that specific request.
+
+          - |
+            ### Frontend
+
+            This course focuses on JavaScript and the frontend.
+
+            HTML, CSS and JS are primarily frontend languages. Webpages can send back data written in these languages and your browser parses this data to display it to your screen.
+
+            **HTML** (HyperText Markup Language) governs the structure of the webpage. For example, you can use it to make a webpage with a big heading and text underneath using the `<h1>` and `<p>` ("heading size 1" and "paragraph") HTML tags.
+
+            > HTML is a <ins>markup</ins> language. It controls the formatting of text in order to assist humans in reading it - it's not intended to write programs of any sort (you could, but it would require a lot of browser magic)!
+
+            **CSS** (Cascading Style Sheets) dictates how the webpage appears to the user. For example, you might make the entire webpage blue with this code:
+
+            ```css
+            * {
+              background-color: blue;
+            }
+            ```
+
+            The "cascading" part refers to how you can stack a lot of different stylesheets on top of each other, making it easy to integrate your styles with other people's styles by overriding specific rules. For example, somebody could import my stylesheet above and override it with their own to make the page red instead!
+
+            > How might you import an external stylesheet in HTML?
+
+            **JS** (JavaScript) is used to add dynamic elements to webpages, for example, the functionality of the `Next Page` button you clicked earlier. JS is the most versatile of the three languages and can do a lot of stuff, as you'll see.
+
+      - levelNo: 2
+        infos: 
+          - |
+            ### Web APIs
+
+            It's key to note that the browser is what parses and displays/applies/executes the HTML, CSS and JS received from the server.
+
+            The browser also enables JavaScript to do a lot of complex stuff. For example, you can make requests from JavaScript itself. How does this work?
+
+            The browser exposes some functionalities (eg making HTTP requests, printing) and allows certain JavaScript functions to call them. These are called Web APIs (Application Programming Interfaces).
+
+            > An API is just a way for multiple programs to talk to each other. Here, the frontend JavaScript is talking to the browser via a dedicated function. For example, in JavaScript, `fetch` is a web API in order to make a browser HTTP request.
+
+            Take a look at this website. Remember, when dealing with HTTP requests, important data will be shown in the Network tab of your developer tools!
+
+      - levelNo: 3
+        infos: 
+          - |
+            ### JSON
+
+            JSON (JavaScript Object Notation) is just another format of storing data. As the name suggests, data is stored in a JavaScript-compatible format. Data can be easily converted between JSON and JavaScript using the `JSON` web API.
+
+            > For example, `JSON.parse("[1, 2, 3]")` will return the JavaScript Array `[1, 2, 3]`.
+
+            JSON is a very useful format thanks to all the different data types it supports.
+
+            > Can you find out what all of the different data types are?
+
+            Use the JSON Web API to parse this data and sift through it to find the flag.
+
+
+
+  - courseName: "SQL"
+    levels:
+      - levelNo: 1
+        infos: 
+          - |
+            ### Introduction
+
+            When building websites, you'll need to store vast amounts of data in an organised format. You could store it all in a format like JSON (JavaScript Object Notation), or keep it in a CSV (Comma Separated Values) file, but how would you get the specific data you want? What if there were changes to the whole structure and you needed to rewrite the file? How would you make sure that the data in the file was always valid?
+
+            Formats like JSON and CSV just aren't very suitable for keeping very large amounts of data that you need to pick wanted bits of data out of ("query") later. What can be used, however, is a **database**. Databases are collections of data that are designed to present data in an easily-queryable, structured format.
+
+            Databases can be found everywhere. This service uses databases to store courses, challenges and login details. Discord uses massive dedicated database servers to store most of its user data. Chrome even uses databases to map URLs to the little image icon that appears on tabs!
+
+            > These little images are called "favicons". Can you think of some more services that use databases?
+
+          - |
+            ### SQL Injection
+
+            **SQL** stands for "Structured Query Language". As the name suggests, it's a language that is used to query databases. There are many different dialects of SQL with differing syntaxes and behaviours, but this course will focus on SQLite, which can write to and read from databases on your filesystem.
+
+            Here's an SQLite `SELECT` query to get the feel for SQLite syntax:
+
+            ```sql
+            SELECT username FROM Users WHERE username = 'admin' AND password = 'password123';
+            ```
+
+            This returns all the usernames of the users in the database who have a username "admin" and a password "password123".
+
+            Notice how both "admin" and "password123" are wrapped in single quotes to show that they're strings. SQLite won't interpret what's between the quotes as SQLite code.
+
+            **SQL injection** is a vulnerability that arises when an adversary can get user input to be executed as SQL code. Here, for example, they might provide a password like `' OR 1=1;--` to *break out of the single quotes*, which will stop the input being parsed as a string and allow it to be parsed as SQLite code!
+
+            > Try replacing `password123` with `' OR 1=1;--` in the snippet above. What does a double dash in SQLite mean? What would the query result in?
+
+            Remember: if you don't know how to do something in SQLite, you can always look online.
+
+      - levelNo: 2
+        infos: 
+          - |
+            ### Bypassing Filters
+
+            If you've found a probable injection point (can be tested by trying to inject quotes if you don't have the source code, or by identifying it in the code), that should mean that you can execute whatever SQL you want. However, there may be filters in place that restrict what inputs you can inject.
+
+            To get past those filters, you may need to think creatively. Identify your goal and look for different features of SQLite that may help you.
+
+            > In the previous example, the goal was to find something that always resulted in a true condition.
+
+            This challenge has filters (albeit unintentionally) on the characters you're allowed to use. Can you find a way to get the flag?
+
+      - levelNo: 3
+        infos: 
+          - |
+            ### Automation
+
+            Sometimes you may need to search through a database record by record to find what you need. Doing that by hand is painful, but luckily computers can help us with that!
+
+            Try finding the flag here.
+
+            > If you're using Python, the `requests` module may be helpful.
+
+  - courseName: "Cookies"
+    levels:
+      - levelNo: 1
+        infos: 
+          - |
+            ### Introduction
+
+            Imagine if you had to log in before performing any and every action online. You don't have to. Why? Cookies!
+
+            Cookies are small pieces of data that are integral to the user experience on the web. Servers can tell clients to set cookies for some period of time, and during this time, clients automatically attach cookies to request sent to the server (most of the time, as you'll see) when navigating, fetching, and so on.
+
+            You don't see cookies normally, but you have your developer tools if you need to see them. They'll usually be found in **Application**/**Storage**.
+
+            > Try and see your cookies for this site!
+
+            If you use the web frequently, you may wonder, how come there are so few cookies if you've visited so many sites? If you use the web even more frequently, you may know that cookies are stored on a site-to-site basis. This means that each site has its own cookie jar that other sites can't access.
+
+            > This helps with both security and performance. Since cookies can contain pretty sensitive data, such as login sessions, you wouldn't want another website accessing them. You also wouldn't want to send every cookie from every website you've ever been to when visiting a particular page!
+
+      - levelNo: 2
+        infos: 
+          - |
+            ### Attributes
+
+            Earlier you were told that cookies were only sent *most* of the time. Ignoring cookies from other sites, this may be because of cookie attributes!
+
+            When cookies are set, extra attributes can be specified that dictate how the cookie is treated. For example, setting the attribute `Max-Age=3600` means that the cookie has a maximum age of 3600 seconds (one hour), and will be deleted after this specified amount of time.
+
+            > Read more about cookie attributes online. An excellent place to learn about them is the Mozilla documentation.
+
+            So, how are cookies set? One way is on the client via `document.cookie`, which is a string that shows almost all of the cookies for that site and allows you to set them in a similar way. Another way is via the `Set-Cookie` response header.
+
+  - courseName: "SSRF"
+    levels:
+      - levelNo: 1
+        infos: 
+          - |
+            ### Introduction
+
+            SSRF (Server-Side Request Forgery) is exactly what its name says: it's a security vulnerability arising when an adversary is able to send arbitrary requests on behalf of the server.
+
+            This differs from the client-side attacks which we've been looking at before since we get to perform an action not as the client, but as the server itself. This might mean that we can do stuff with elevated privileges, or access an internal endpoint, or more.
+
+            > Note that this elevated privilege depends on the recipient of the request and the sender of the request. For example, SSRFing a request from this server to Google would be of very little impact since this server doesn't have any special elevated privileges with regards to Google. However, sending a request from this server to itself could be significant, as there may be routes on this server only accessible internally which are now indirectly open to an adversary.
+
+            Part of the trouble is identifying something which we don't have access to as a normal client, but which we do have access to as the server. The other trouble is using this to do anything! The first challenge will helpfully make this a bit easier by simply returning the flag on the private route.
+
+      - levelNo: 2
+        infos: 
+          - |
+            ### HTTP Requests
+
+            The previous challenge used HTTP with cURL (literally "see URL"). But, what is HTTP?
+
+            HTTP (HyperText Transfer Protocol) is a set of rules that govern the fetching and sending of resources over the Web. It's needed and standardised in order to make sure that all parties on the internet are able to communicate with each other in this way.
+
+            > The discrepancies between how different services implement the HTTP standards gives rise to an even more complex type of vulnerability known as HTTP Request Smuggling! Parser discrepancies in general are a recurring gold mine for security vulnerabilities of all kinds. Beware the unstandard standard!
+
+            The format of a typical GET request to a server might look like this:
+
+            ```
+            GET / HTTP/1.1
+            Host: example.com
+            User-Agent: Chrome/111.0 ...
+            Extra-Headers: etc
+            ```
+
+            It begins with the request line, which has a method, a path and a protocol version. You don't need to worry about protocol version, and usually it's HTTP/1.1. The method here is `GET` and the path is `/`.
+
+            Following these are the headers, which consist of key-value pairs providing data around the request: for example, `Host` tells the server which host the user is accessing, which is `example.com` here.
+
+            > Can you research other methods and headers that are common on the web?
+
+            Take a look at this service. Can you *grok* it to find out what it takes to get the flag?

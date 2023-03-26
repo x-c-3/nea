@@ -1,0 +1,118 @@
+---
+challenges:
+
+  - challengeName: Blog 1
+    description: "I split the flag into 3 parts and hid each part in the HTML, CSS and JS of my site. Can you recover it?"
+    shortDesc: "One flag, three parts."
+    difficulty: easy
+    points: 100
+    category: HTML, CSS and JavaScript
+    flag: "ctf{thr33_p4rts_to_f0rm_one_wh0le}"
+    source: false
+    courseName: JavaScript
+    levelNo: 1
+
+  - challengeName: Fetch!
+    description: "Where's my flag???"
+    shortDesc: "Where's my flag???"
+    difficulty: novice
+    points: 200
+    category: Web APIs
+    flag: "ctf{Web_API_w1zard}"
+    source: false
+    courseName: JavaScript
+    levelNo: 2
+
+  - challengeName: Script Kiddie
+    description: "Somebody broke into our network and locked us out, but thankfully, we managed to dig up some information about them - a bit too much information, perhaps. The attacker's data is somewhere in this dump and we know that their first name is the the same as their surname spelt backwards, ignoring capitalisation. Can you help us retrieve their account information?"
+    shortDesc: "Are you a JSON genius?"
+    difficulty: medium
+    points: 300
+    category: JSON
+    flag: "ctf{javascr1pt_0bject_not4tion}"
+    source: false
+    courseName: JavaScript
+    levelNo: 3
+
+
+  - challengeName: Prequel
+    description: "Before the sequel is the prequel. Check out this movie database."
+    shortDesc: "Check out this movie database."
+    difficulty: easy
+    points: 100
+    category: SQL Injection
+    flag: "ctf{unsanitised_sql_me4ns_d4nger}"
+    source: false
+    courseName: SQL
+    levelNo: 1
+
+  - challengeName: simple-calculator
+    description: "Calculate at the speed of your internet with this simple calculator!"
+    shortDesc: "Calculate at the speed of your internet with this simple calculator!"
+    difficulty: advanced
+    points: 400
+    category: Filter Bypasses
+    flag: "ctf{not_s0_simple_solut1on_g00d_j0b}"
+    source: true
+    courseName: SQL
+    levelNo: 2
+
+  - challengeName: Blog 2
+    description: |
+      Thanks to your work, we reported the issue to the admins and they've removed the blog. However, there's still vulnerabilities to be had, as we've received reports that the /login and /register routes are vulnerable to SQL injection! We don't have any user interface to login or register on, so we're stuck, but we know you'll be able to. Can you leak the admin's username?
+
+      Note: Remember to use throwaway passwords when registering accounts on challenges.
+    shortDesc: "Blog 2: Electric Boogaloo"
+    difficulty: hard
+    points: 500
+    category: SQL Injection, JavaScript
+    flag: "ctf{5ql_4nd_jav4scr1pt_sup3rst4r}"
+    source: false
+    courseName: SQL
+    levelNo: 3
+
+
+  - challengeName: Finals
+    description: "Just get 1000 questions correct! It can't be that hard."
+    shortDesc: "Can you artifically raise your grade?"
+    difficulty: easy
+    points: 100
+    category: Cookies
+    flag: "ctf{c00kie_monster}"
+    source: false
+    courseName: Cookies
+    levelNo: 1
+
+  - challengeName: Error
+    description: "I was promised a flag in a cookie, but it never arrived!"
+    shortDesc: "False promises and missing cookies"
+    difficulty: medium
+    points: 300
+    category: Cookie Attributes
+    flag: "ctf{Set_Cookie_1s_h0w_c00kies_are_set}"
+    source: true
+    courseName: Cookies
+    levelNo: 2
+
+
+  - challengeName: cURLy
+    description: "Do you wish you could c your URLs? Wish no longer and start using `cURLy` today."
+    shortDesc: "See your URLs in all their glory"
+    difficulty: easy
+    points: 100
+    category: cURL
+    flag: "ctf{s3rver_side_superst4r}"
+    source: true
+    courseName: SSRF
+    levelNo: 1
+
+  - challengeName: build-your-own-http
+    description: "Abstraction is a hurdle."
+    shortDesc: "Abstraction is a hurdle."
+    difficulty: hard
+    points: 500
+    category: HTTP Requests
+    flag: "ctf{http_de1ty}"
+    source: true
+    courseName: SSRF
+    levelNo: 2

@@ -1,0 +1,14 @@
+---
+courses:
+  
+  - courseName: "JavaScript"
+    shortDesc: "Learn the basics of the client-side and explore the ubiquitous languages of the Web. It is recommended to complete this course first."
+
+  - courseName: "SQL"
+    shortDesc: "Learn about the fundamentals of what Structured Query Language (SQL) is, its applications, and the dangers of SQL injection."
+
+  - courseName: "Cookies"
+    shortDesc: "How does a website remember who you are? Chances are that it's via cookies. Learn about what cookies are and common misconceptions around cookies."
+
+  - courseName: "SSRF"
+    shortDesc: "Test your skills with this more difficult course covering Server Side Request Forgery (SSRF)."

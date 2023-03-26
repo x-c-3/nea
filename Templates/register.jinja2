@@ -1,0 +1,31 @@
+{% extends 'partials/base.jinja2' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<script src="/static/js/user.js"></script>
+
+<form id="registerForm">
+	<input name="username" placeholder="Username">
+	<input name="password" placeholder="Password">
+	<input type="submit" value="Submit">
+</form>
+<script>
+// define elements from the DOM
+let registerForm = document.getElementById("registerForm");
+
+// Listen for when the form is submitted
+registerForm.addEventListener("submit", e => {
+	e.preventDefault(); // stop the form from normally submitting so the page doesn't refresh
+
+	// extract username and password
+	let formData = new FormData(registerForm);
+	let username = formData.get("username");
+	let password = formData.get("password");
+
+	// register with these credentials
+	register(username, password);
+})
+
+showContent();
+</script>
+{% endblock %}
