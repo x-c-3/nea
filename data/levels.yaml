@@ -146,7 +146,7 @@ levels:
 
             Cookies are small pieces of data that are integral to the user experience on the web. Servers can tell clients to set cookies for some period of time, and during this time, clients automatically attach cookies to request sent to the server (most of the time, as you'll see) when navigating, fetching, and so on.
 
-            You don't see cookies normally, but you have your developer tools if you need to see them. They'll usually be found in **Application**/**Storage**.
+            You don't see cookies normally, but you have your developer tools if you need to see them. They'll usually be found in **Application** or **Storage**.
 
             > Try and see your cookies for this site!
 

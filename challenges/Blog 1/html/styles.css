@@ -1,0 +1,28 @@
+/* Import the font that this site uses */
+@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
+
+/* Some styles to make the website look nice. Try and understand what each of these styles does! */
+* {
+	font-family: Old Standard TT;
+	text-align: center;
+}
+
+h1 {
+	margin-top: 5rem;
+}
+
+h2 {
+	margin-bottom: 3rem;
+}
+
+hr {
+	margin-bottom: 2rem;
+	max-width: 50%;
+	flag-part-3: "one_wh0le}";
+}
+
+p {
+	max-width: 35%;
+	margin: 0 auto;
+	margin-bottom: 2rem;
+}

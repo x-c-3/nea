@@ -155,4 +155,5 @@ class User:
 		res = self.query("SELECT courseName FROM CourseSolve WHERE username = ?", [
 			username
 		])
-		return res
+		# flatten via list comprehension
+		return [d.get("courseName") for d in res]

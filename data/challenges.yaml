@@ -3,7 +3,7 @@ challenges:
 
   - challengeName: Blog 1
     description: "I split the flag into 3 parts and hid each part in the HTML, CSS and JS of my site. Can you recover it?"
-    shortDesc: "One flag, three parts."
+    shortDesc: "An introduction to the three web languages."
     difficulty: easy
     points: 100
     category: HTML, CSS and JavaScript
@@ -13,8 +13,8 @@ challenges:
     levelNo: 1
 
   - challengeName: Fetch!
-    description: "Where's my flag???"
-    shortDesc: "Where's my flag???"
+    description: "JavaScript can do a lot more thanks to the browser. Can you show some of that stuff off?"
+    shortDesc: "Exploring the fetch Web API."
     difficulty: novice
     points: 200
     category: Web APIs
@@ -23,9 +23,9 @@ challenges:
     courseName: JavaScript
     levelNo: 2
 
-  - challengeName: Script Kiddie
-    description: "Somebody broke into our network and locked us out, but thankfully, we managed to dig up some information about them - a bit too much information, perhaps. The attacker's data is somewhere in this dump and we know that their first name is the the same as their surname spelt backwards, ignoring capitalisation. Can you help us retrieve their account information?"
-    shortDesc: "Are you a JSON genius?"
+  - challengeName: JSON Dump
+    description: "Somebody broke into our network and locked us out, but thankfully, we have access to our network access logs information - a bit too much information, perhaps. The attacker's data is somewhere in this dump and we know that their first name is the the same as their surname spelt backwards, ignoring capitalisation. Can you help us retrieve their account information?"
+    shortDesc: "Perform some JSON forensics."
     difficulty: medium
     points: 300
     category: JSON
@@ -59,7 +59,22 @@ challenges:
 
   - challengeName: Blog 2
     description: |
-      Thanks to your work, we reported the issue to the admins and they've removed the blog. However, there's still vulnerabilities to be had, as we've received reports that the /login and /register routes are vulnerable to SQL injection! We don't have any user interface to login or register on, so we're stuck, but we know you'll be able to. Can you leak the admin's username?
+      I'm in the process of revamping the blog to make it a little more interesting. There's no user interface right now, but I still want to test my `/login` and `/register` routes in case of SQL injection. Can you leak my username?
+
+      It is recommended to have completed the JavaScript course before attempting this challenge. Try this code as a starting point:
+
+      ```js
+      fetch("/login", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: "User123",
+          password: "Pass123"
+        }),
+        method: "POST"
+      })
+      ```
 
       Note: Remember to use throwaway passwords when registering accounts on challenges.
     shortDesc: "Blog 2: Electric Boogaloo"
@@ -83,23 +98,26 @@ challenges:
     courseName: Cookies
     levelNo: 1
 
-  - challengeName: Error
+  - challengeName: Free Cookies
     description: "I was promised a flag in a cookie, but it never arrived!"
     shortDesc: "False promises and missing cookies"
     difficulty: medium
     points: 300
     category: Cookie Attributes
-    flag: "ctf{Set_Cookie_1s_h0w_c00kies_are_set}"
-    source: true
+    flag: "ctf{c00k1e_attr1butes_can_b3_funny}"
+    source: false
     courseName: Cookies
     levelNo: 2
 
 
   - challengeName: cURLy
-    description: "Do you wish you could c your URLs? Wish no longer and start using `cURLy` today."
+    description: |
+      Do you wish you could c your URLs? Wish no longer and start using `cURLy` today.
+
+      Note: if you have an exploit that you think should work but it doesn't, read more into Flask's `remote_addr` documentation.
     shortDesc: "See your URLs in all their glory"
-    difficulty: easy
-    points: 100
+    difficulty: novice
+    points: 200
     category: cURL
     flag: "ctf{s3rver_side_superst4r}"
     source: true

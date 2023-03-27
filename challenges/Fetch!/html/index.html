@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Anti-Flag Agency</title>
+
+	<!-- Here's the external stylesheet -->
+	<!-- This is not part of the challenge. This shows how you can import third-party styles to make your site look nice! -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.2/pico.min.css" integrity="sha512-3gFq2IXMVlAQaUyahzhjDRivv0yqyXTb7xiy6ivTaG5Uz4hKI54uYxpQefdomgDVQ11eJVUbXG0YdPMDISiGgg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<main class="container">
+	<h1>Anti-Flag Agency</h1>
+
+	<p>
+		Welcome to the Anti-Flag Agency (AFA), where flags are contraband.
+	</p>
+	<p>
+		You'll find nothing about flags written here.
+	</p>
+	<p>
+		This site uses an external stylesheet, <a href="https://picocss.com/" target="_blank">pico.css</a>!
+	</p>
+	<p>
+		We also have some custom scripts below. Check them out!
+	</p>
+
+</main>
+
+<script type="text/javascript">
+// Inline script!
+// This secretly tries to get the flag, but why isn't it working?
+
+fetch("/giveflag", {
+	headers: { "content-type": "application/json" },
+	method: "POST",
+	body: JSON.stringify({ flag: false })
+})
+</script>
+
+</body>
+</html>

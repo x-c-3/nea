@@ -6,6 +6,12 @@
 <script src="/static/js/courses.js"></script>
 <script src="/static/js/challenges.js"></script>
 
+<div class="card mx-1">
+	<div class="card-body">
+		<p class="mb-0">Here you'll find the Courses, which consist of challenges interspersed with neatly packaged, easily digestible snippets of information. It is recommended to start here!</p>
+	</div>
+</div>
+
 <div class="container">
 	<div class="row" id="coursesRow">
 <!-- 		<div class="card col mx-1">
@@ -41,12 +47,16 @@ async function displayCourseInfo() {
 			if (solvedChallenges.includes(challenge)) solvedCount += 1;
 		}
 
+		if (solvedCourses.includes(courseName)) solved = true;
+		else solved = false;
+
 		coursesRow.innerHTML += `
-			<div class="card col mx-1">
+			<div class="card col mx-1 ${solved ? "solved" : ""}">
 
 				<div class="card-body">
 					<h3>${courseName}</h3>
 					<hr>
+					${solved ? '<span class="badge bg-success mb-3">Solved!</span>' : ""}
 					<p>
 						${shortDesc}
 					</p>

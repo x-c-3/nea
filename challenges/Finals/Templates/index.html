@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Online Test</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+
+<h1>Online Test</h1>
+
+{% if msg %}
+<p>
+	<em>{{msg}}</em>
+</p>
+{% endif %}
+
+{% if flag %}
+<p>
+	<b>You've answered 1000 questions correctly! Here's your flag: {{flag}}</b>
+</p>
+{% endif %}
+
+{% if question %}
+<p>
+	<b>{{question}}</b>
+</p>
+{% endif %}
+
+{% if num_correct is defined %}
+<p>
+	Number of questions answered correctly so far: {{num_correct}}<br>
+	Get 1000 correct to win a prize!
+</p>
+{% endif %}
+
+<form action="/">
+	<input name="answer" type="text" placeholder="Answer">
+	<input type="submit">
+</form>
+
+</body>
+</html>

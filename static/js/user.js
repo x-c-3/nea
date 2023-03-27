@@ -5,21 +5,20 @@
  * @returns {Object} success/error message
  */
 async function login(username, password) {
-	fetch("/api/login", {
+	let res = await fetch("/api/login", {
 		method: "POST",
 		headers: {
 			"content-type": "application/x-www-form-urlencoded" // required for a POST request with a form body
 		},
 		body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}` // uri encode the username and password when submitting the form to defang dangerous characters
-	}).then(async r => {
-		// extract message from fetch response
-		let { message } = await r.json();
+	});
 
-		if (r.ok) {
-			alert(message);
-		}
-		else if (!r.ok) alert(message);
-	})
+	// extract message from fetch response
+	let { message } = await res.json();
+
+	if (res.ok) return { success: message };
+	else if (!res.ok) return { error: message };
+
 }
 
 /**
@@ -29,21 +28,20 @@ async function login(username, password) {
  * @returns {Object} success/error message
  */
 async function register(username, password) {
-	fetch("/api/register", {
+	let res = await fetch("/api/register", {
 		method: "POST",
 		headers: {
 			"content-type": "application/x-www-form-urlencoded" // required for a POST request with a form body
 		},
 		body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}` // uri encode the username and password when submitting the form to defang dangerous characters
-	}).then(async r => {
-		// extract message from fetch response
-		let { message } = await r.json();
+	});
 
-		if (r.ok) {
-			alert(message);
-		}
-		else if (!r.ok) alert(message);
-	})
+	// extract message from fetch response
+	let { message } = await res.json();
+
+	if (res.ok) return { success: message };
+	else if (!res.ok) return { error: message };
+
 }
 
 /**

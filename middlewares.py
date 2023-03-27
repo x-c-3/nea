@@ -28,27 +28,3 @@ def apiLoginRequired(fn):
 			}, 403
 		return fn(*args, **kwargs) # otherwise, simply continue
 	return wrapper
-
-"""
-Decorator to reject a request if the user is not admin. For the frontend.
-"""
-def adminWebRequired(fn):
-	@functools.wraps(fn) # decorates the route
-	def wrapper(*args, **kwargs):
-		if session.get("username") != "administrator":
-			return redirect(url_for("web.login")) # send them to the login page
-		return fn(*args, **kwargs) # otherwise, simply continue
-	return wrapper
-
-"""
-Decorator to reject a request if the user is not admin. For the backend API, so a JSON error message is given.
-"""
-def adminApiRequired(fn):
-	@functools.wraps(fn) # decorates the route
-	def wrapper(*args, **kwargs):
-		if session.get("username") != "administrator":
-			return {
-				"message": "You do not have permission to use this route!"
-			}, 403
-		return fn(*args, **kwargs) # otherwise, simply continue
-	return wrapper

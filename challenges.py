@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	app.run("127.0.0.1", port)
 """
 def startChallenge(challengeName):
-	randomPort = str(random.randint(10000, 20000))
+	randomPort = str(random.randint(10000, 11000))
 	runningChallenges.append({
 		"challengeName": challengeName,
 		"process": subprocess.Popen(["python3", "app.py", randomPort], cwd=f"{homeDir}/challenges/{challengeName}"), # run the challenge

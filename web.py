@@ -50,11 +50,6 @@ def courses():
 def course(courseName):
 	return render_template("course.jinja2")
 
-@web.route("/admin")
-@adminWebRequired
-def admin():
-	return render_template("admin.jinja2")
-
 @web.route("/logout")
 def logout():
 	session.clear()

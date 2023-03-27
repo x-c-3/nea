@@ -9,6 +9,9 @@ challenges = yaml.safe_load(open("data/challenges.yaml"))["challenges"]
 db = sqlite3.connect("db.db")
 cursor = db.cursor()
 
+cursor.execute("DELETE FROM Course")
+cursor.execute("DELETE FROM Level")
+cursor.execute("DELETE FROM Challenge")
 
 cursor.executemany("INSERT INTO Course (courseName, shortDesc) VALUES (:courseName, :shortDesc)", courses)
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>simple-calculator</title>
+
+	<link href="https://igoradamenko.github.io/awsm.css/css/awsm.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+	<h1>simple-calculator</h1>
+</header>
+
+
+<main>
+	<article>
+		<section>
+		{% if error %}
+		<p>
+			<em>{{error}}</em>
+		</p>
+		{% endif %}
+		</section>
+
+		<section>
+			<h2>Perform a Calculation</h2>
+			<p>Please note that we can only support simple operations between two numbers right now :)</p>
+			<form action="/calculate">
+
+				<label for="number1">First number</label>
+				<input id="number1" name="number1" type="text" value="1">
+
+				<label for="operation">Operation</label>
+				<input type="text" id="operation" name="operation" list="operations">
+				<datalist id="operations">
+					<option value="+">+</option>
+					<option value="-">-</option>
+					<option value="*">*</option>
+					<option value="/">/</option>
+				</datalist>
+
+				<label for="number2">Second number</label>
+				<input name="number2" id="number2" type="text" value="1">
+				
+				<input type="submit">
+			</form>
+		</section>
+
+	</article>
+</main>
+
+</body>
+</html>

@@ -12,7 +12,7 @@
 		<div class="card-body">
 			<h2>🔥 Streak</h2>
 			<p id="streakText" class="mb-1">$$username$$ is on a <b>$$streak$$ day</b> login streak!<br>
-			Their last login was on $$lastStreakLogin$$.</p>
+			Their last login was on $$lastLogin$$.</p>
 		</div>
 	</div>
 
@@ -26,7 +26,7 @@
 	<div class="card">
 		<div class="card-body">
 			<h2>🔢 Points</h2>
-			<p id="pointsText">$$username$$ has attained $$points$$ points compared to the top player's $$maxPts$$ total points.</p>
+			<p id="pointsText">$$username$$ has attained $$points$$ points out of a possible maximum $$maxPts$$ total points.</p>
 			<div class="progress">
 				<div id="pointsProgressBar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
 			</div>
@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="card">
-		<div class="card-body">
+		<div class="card-body pb-0">
 			<h2>🩸 First Bloods</h2>
 			<p id="fbText"></p>
 			<ul id="fb"></ul>
@@ -67,13 +67,14 @@ async function displayProfile() {
 	let userRank = await fetchUserRank(username);
 	let allCourses = await fetchCourseNames();
 	let solvedCourses = await fetchSolvedCourseNames(username);
-	let { firstBloods, points, streak, lastStreakLogin } = await fetchUserInfo(username);
+	let { firstBloods, points, streak, lastLogin } = await fetchUserInfo(username);
 
-	// to get the highest number of points, get the scoreboard #1's number of points
-	let maxPts = (await fetchScoreboard())[0].totalPoints;
+	// to get the maximum number of points, get the sum of all the points of all the challenges
+	let challengeInfos = await fetchChallengeInfos();
+	let maxPts = (challengeInfos.map(challengeInfo => challengeInfo.points)).reduce((a, b) => a + b)
 
 	// to get the maximum number of challenges, get the number of challenges from the api
-	let maxNumChalls = (await fetchChallengeNames()).length;
+	let maxNumChalls = challengeInfos.length;
 	let numChalls = (await fetchSolvedChallengeNames(username)).length;
 
 
@@ -91,7 +92,7 @@ async function displayProfile() {
 	template(header, { username, userRank })
 	template(pointsText, { username, points, maxPts })
 	template(challsText, { username, numChalls, maxNumChalls })
-	template(streakText, { username, streak, lastStreakLogin })
+	template(streakText, { username, streak, lastLogin })
 
 	// display courses
 	allCourses.forEach(courseName => {

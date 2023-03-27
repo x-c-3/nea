@@ -67,7 +67,7 @@ class Course:
 	def addCourseSolve(self, courseName, username):
 		self.query("INSERT INTO CourseSolve (courseName, username) VALUES (?, ?)", [
 			courseName,
-			usernam
+			username
 		])
 		return
 
@@ -75,7 +75,9 @@ class Course:
 	Get the users who have solved a course.
 	"""
 	def getCourseSolves(self, courseName):
-		self.query("SELECT username FROM CourseSolve WHERE courseName = ?", [
+		res = self.query("SELECT username FROM CourseSolve WHERE courseName = ?", [
 			courseName
 		])
-		return
+		# list comprehension to flatten to a list
+		res = [d.get("username") for d in res]
+		return res

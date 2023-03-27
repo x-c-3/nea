@@ -3,7 +3,7 @@
 {% block content %}
 
 <script src="/static/js/challenges.js"></script>
-	
+
 <div id="challengeContainer">
 
 	<div class="card mb-4" id="fb">
@@ -15,7 +15,9 @@
 	<div class="card mb-3">
 		<div class="card-body pb-1">
 			<h3 class="mb-3">📝 Description</h3>
-			$$description$$
+			<p class="markdown-body">
+				$$description$$
+			</p>
 		</div>
 	</div>
 
@@ -105,6 +107,9 @@ async function addChallengeInfo() {
 
 	// parse the challenge description using Markdown
 	challengeInfo.description = marked.parse(challengeInfo.description)
+
+	// turn the port into a full URL
+	challengeInfo.challengeURL = `http://${location.hostname}:${challengeInfo.port}`
 
 	template(header, { challengeName });
 	template(challengeContainer, challengeInfo);

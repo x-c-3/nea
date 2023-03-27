@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Raw proxy</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+
+<h1>Build your own HTTP!</h1>
+
+{% if error %}
+<em>{{error}}</em>
+{% endif %}
+
+<form action="/proxy">
+	<input name="url" type="text" value="http://example.com">
+	<input type="submit">
+</form>
+
+</body>
+</html>

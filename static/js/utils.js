@@ -121,14 +121,16 @@ function infoToPage(info) {
 
 /**
  * Helper function for courseInfoToPages to fetch a given challenge name and convert the resulting content into a fully formatted HTML page.
- * To do this, embed the challenge page in a borderless iframe.
+ * To do this, embed the challenge page in a borderless iframe. Add a postMessage listener that will trigger once the frame loads.
  * @see courseInfoToPages
+ * @see showContent
  * @param {String} challengeName
  * @returns {String} page
  */
 function challengeNameToPage(challengeName) {
 	return `
-		<iframe class="challenge-embed" frameBorder="0" src="/challenge/${challengeName}" onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"></iframe>
+		<p id="loadingText" class="mb-0">Loading...</p>
+		<iframe class="challenge-embed d-none" frameBorder="0" src="/challenge/${challengeName}" id="challengeEmbed"></iframe>
 	`
 }
 
@@ -145,7 +147,8 @@ function isEmbedded() {
  * This combats the unrendered template showing due to the delay in AJAX loading.
  */
 function showContent() {
-	content.classList.remove("d-none");
-	// If we're in an iframe, tell the parent that we're finished loading
+	content.classList.remove("opacity-0");
+
+	// If we're in an iframe, tell the parent that we've finished loading
 	if (isEmbedded()) parent.postMessage("Loaded", "*");
 }

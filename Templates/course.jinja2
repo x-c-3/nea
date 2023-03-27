@@ -9,7 +9,7 @@
 
 	<div class="card mb-3">
 		<div class="card-body">
-			<p id="page" class="mb-1"></p>
+			<p id="page" class="markdown-body"></p>
 		</div>
 	</div>
 
@@ -48,6 +48,14 @@ async function addCoursePageInfo() {
 
 	// set the current page from localStorage
 	page.innerHTML = allPages[levelNo][pageNo - 1];
+
+	// make the page fade in
+	page.style.transition = "";
+	page.style.opacity = 0;
+	setTimeout(() => {
+		page.style.transition = "opacity 0.2s ease";
+		page.style.opacity = 1;
+	}, 0);
 
 	// set the header
 	header.innerHTML = `<span style="color: dodgerblue;">${courseName}</span> <span class="separator">-</span> Level ${levelNo}`;
@@ -102,6 +110,15 @@ solveCourseBtn.addEventListener("click", async e => {
 		// take them out of the course if they're done
 		alert(res.success);
 		location.href = "/courses";
+	}
+})
+
+// listen to when the challenge loads, if there's a challenge on this page
+window.addEventListener("message", e => {
+	if (e.data === "Loaded") {
+		challengeEmbed.classList.remove("d-none");
+		challengeEmbed.style.height = challengeEmbed.contentWindow.document.documentElement.scrollHeight + 'px';
+		loadingText.remove();
 	}
 })
 

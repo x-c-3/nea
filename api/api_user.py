@@ -24,7 +24,9 @@ def wrap_user(api):
 		"""
 		username = request.form.get("username", "") # Defaults to empty string if not supplied
 		password = request.form.get("password", "")
-		if db.loginUser(username, password): # Successful login, set username on the session if successful
+		if db.loginUser(username, password): # Successful login
+
+			# set username on the session if successful
 			session["username"] = username
 
 			"""
@@ -37,11 +39,15 @@ def wrap_user(api):
 			) # stored in the db as a date string - parse it using the global format
 
 			now = datetime.now()
+
+			# set their last login
+			db.setLastLogin(username, datetime.strftime(now, DATE_FORMAT))
+
 			if now > lastStreakLogin + timedelta(hours = 48): # logged in after streak is over
 				db.setStreak(username, 1)
 				db.setLastStreakLogin(username, datetime.strftime(now, DATE_FORMAT))
 			elif now > lastStreakLogin + timedelta(hours = 24): # logged in to maintain streak
-				db.setStreak(username, db.getStreak() + 1) # increment the streak
+				db.setStreak(username, db.getStreak(username) + 1) # increment the streak
 				db.setLastStreakLogin(username, datetime.strftime(now, DATE_FORMAT))
 			else: # already claimed streak
 				pass

@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
+
+* {
+	font-family: Old Standard TT;
+	text-align: center;
+}
+
+h1 {
+	margin-top: 5rem;
+}
+
+h2 {
+	margin-bottom: 3rem;
+}
+
+hr {
+	margin-bottom: 2rem;
+	max-width: 50%;
+}
+
+p {
+	max-width: 35%;
+	margin: 0 auto;
+	margin-bottom: 2rem;
+}

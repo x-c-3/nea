@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Movie Database</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+<body>
+
+<h1>Movie Database</h1>
+
+<p>Find your favourite movies here!</p>
+
+<form>
+	<label for="title">Movie title</label>
+	<input type="text" name="title" id="email" placeholder="Naijan">
+	<input type="submit">
+</form>
+
+{% if query is defined %}
+<p>
+	<strong>The SQLite query was:</strong> <code>{{ query }}</code>
+</p>
+{% endif %}
+
+{% if error is defined %}
+<p>
+	<strong>{{ error }}</strong>
+</p>
+{% else %}
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for title, description in res %}
+		<tr>
+			<th>{{ title }}</th>
+			<th>{{ description }}</th>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+</body>
+</html>

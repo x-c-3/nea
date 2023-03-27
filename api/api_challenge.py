@@ -24,11 +24,10 @@ def wrap_challenge(api):
 
 		del info["flag"] # Delete the flag
 
-		# add challenge URL
-		url = f"http://{current_app.config['HOST']}:"
+		# add challenge port
 		for processData in runningChallenges:
 			if processData["challengeName"] == challengeName:
-				url += str(processData["port"])
+				port = processData["port"]
 
 		# add people who have solved the challenge
 		solves = db.getSolves(challengeName)
@@ -36,7 +35,7 @@ def wrap_challenge(api):
 		# add the first blooder
 		firstBlood = db.getBlood(challengeName)
 
-		info["challengeURL"] = url
+		info["port"] = port
 		info["solves"] = solves
 		info["firstBlood"] = firstBlood
 
@@ -78,11 +77,10 @@ def wrap_challenge(api):
 				
 				del challengeInfo["flag"] # Delete the flag
 
-				# add challenge URL
-				url = f"http://{current_app.config['HOST']}:"
+				# add challenge port
 				for processData in runningChallenges:
 					if processData["challengeName"] == challengeName:
-						url += str(processData["port"])
+						port = processData["port"]
 
 				# add people who have solved the challenge
 				solves = db.getSolves(challengeName)
@@ -90,7 +88,7 @@ def wrap_challenge(api):
 				# add the first blooder
 				firstBlood = db.getBlood(challengeName)
 
-				challengeInfo["challengeURL"] = url
+				challengeInfo["port"] = port
 				challengeInfo["solves"] = solves
 				challengeInfo["firstBlood"] = firstBlood
 

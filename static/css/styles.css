@@ -4,6 +4,10 @@
 	font-family: Nunito, sans-serif;
 }
 
+#content {
+	transition: opacity 0.2s ease;
+}
+
 #header {
 	margin-top: -1rem;
 }
@@ -31,7 +35,7 @@
 	min-height: 10rem;
 }
 
-.challenge-solved {
+.solved {
 	background-color: #e7e7e7 !important;
 }
 
